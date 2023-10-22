@@ -1,12 +1,8 @@
-# Readme
+# Rotating Yolo-Type Annotations
 
 Rotating segmentation annotations and images of type Yolo. In case you want to rotate images and annotations, you can use this repo. It also works with bounding boxes. 
 
-
-
 ![before_after.png](./images/before_after.png)
-
-
 
 ## How to Use
 
