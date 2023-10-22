@@ -1,0 +1,6 @@
+names:
+- book
+- coffee-cup
+- pencil
+nc: 3
+train: ./train/images
