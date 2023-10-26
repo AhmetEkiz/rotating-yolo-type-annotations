@@ -177,6 +177,8 @@ def rotate_bbox_annotations(label_PATH,
                             cx=0.5, cy=0.5, angle=np.radians(-90)):
     """ Rotate bounding box annotations and images then save a file.
 
+    Thanks to: https://stackoverflow.com/a/75573006/8654414
+
     Args:
             label_PATH: Label path to read annotation that is wanted rotated.
     ouput_folder_PATH: to save images and annotations. (train-test-val)
@@ -185,6 +187,7 @@ def rotate_bbox_annotations(label_PATH,
     cx (float): Rotation referance point's x, in this case center of the image. Default is 0.5 because of annotations are normalized.
             cy (float): Rotation referance point's y, in this case center of the image. Default is 0.5 because of annotations are normalized.
     angle (float PI number type): Angle, in radians ( rad equals 360 degrees). For example np.pi/2. it equals to 90 degree angle CCW
+
     Return:
             rotated_annotation_file_PATH: New rotated annotation file PATH
 
