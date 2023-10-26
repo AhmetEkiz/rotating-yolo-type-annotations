@@ -9,6 +9,7 @@ import numpy as np
 import glob
 from tqdm import tqdm 
 import os
+import shutil
 
 import sys
 sys.path.append('../src')
@@ -22,6 +23,7 @@ def rotate_and_save_dataset(dataset_PATH, output_folder_PATH=" "):
     # create rotated dataset directory
     output_folder_PATH = f"{dataset_PATH}_rotated"
     os.makedirs(output_folder_PATH, exist_ok=True)   
+    shutil.copy(f'{dataset_PATH}/data.yaml', f'{output_folder_PATH}/data.yaml')  # save the data.yaml file
     
     # find all images and annotations in the train, test, and val folders if they exist
     for folder in glob.glob(dataset_PATH+"/*/"):
@@ -34,17 +36,20 @@ def rotate_and_save_dataset(dataset_PATH, output_folder_PATH=" "):
         ouput_sub_folder_images_PATH =f"{output_folder_PATH}/{folder_name}/images"
         ouput_sub_folder_labels_PATH =f"{output_folder_PATH}/{folder_name}/labels"
         os.makedirs(ouput_sub_folder_PATH, exist_ok=True)  # create new train test val directory if they exist
+        print(ouput_sub_folder_PATH, "created")
         os.makedirs(ouput_sub_folder_images_PATH, exist_ok=True)
+        print(ouput_sub_folder_images_PATH, "created")
         os.makedirs(ouput_sub_folder_labels_PATH, exist_ok=True)  
+        print(ouput_sub_folder_labels_PATH, "created")
 
         sub_folder_PATH = f"{dataset_PATH}/{folder_name}/"    #  PATH of train, test, val folders
 
         for image_PATH in tqdm(glob.glob(sub_folder_PATH+"/images/*")):
             image_name = image_PATH.split("\\")[-1]
             label_PATH = f"{sub_folder_PATH}/labels/{image_name.split('.')[0]}.txt"
-
+            print(image_PATH)
+            
             # Before Rotating
-            image = cv2.imread(image_PATH)
             image = utils.draw_annotations(label_PATH, image)   # draw annotations
 
             # Starting Rotating
@@ -67,7 +72,7 @@ def main():
     dataset_PATH = "./data/example_dataset_1_YOLO"
     
     rotate_and_save_dataset(dataset_PATH)
-
+    print("Test Images Printed. Commet utils.rotate_annotations, if you don't want to print test images lines.")
 
 if __name__ == "__main__":
     main()    
