@@ -1,17 +1,21 @@
 # Rotating Yolo-Type Annotations
 
-**Rotating segmentation annotations and images of type Yolo.** In case you want to rotate images and segmentation annotations, you can use this repo. ~~It also works with bounding boxes.~~
+**Rotating segmentation annotations and images of type Yolo.** In case you want to rotate images and segmentation annotations, you can use this repo. It also works with bounding boxes.
+- Just works with **CCW 90** right now.
 
 ![before_after.png](./images/before_after.png)
 
 ## How to Use
 
-Edit `rotate_dataset.py` for dataset path, and run the code. It will create new dataset folder named with `{your_dataset_path}_rotated` and its subfolders (train, test, val)/(images/labels). 
+Edit `rotate_segmentation_dataset.py` for dataset path, and run the code. It will create new dataset folder named with `{your_dataset_path}_rotated` and its subfolders (train, test, val)/(images/labels). 
 
+- For Bounding Box Datasets: `rotate_bbox_dataset.py`
 - Notebooks can be examined to see how the codes work.
 
 ```bash
-python rotate_dataset.py
+python rotate_segmentation_dataset.py
+
+python rotate_bbox_dataset.py
 ```
 
 - Also, this generates annotated images each train/test/val folders with `test_images` name.
@@ -31,4 +35,8 @@ python rotate_dataset.py
 ```
 # TODO
 
-- [ ] Fix for object detection dataset rotation.
+- [x] Fix for object detection dataset rotation.
+- [ ] Put text on annotation on drawing function.
+- [ ] Drawing Segmentation annotations from folder main code.
+- [ ] Drawing Bounding Box annotations from folder main code.
+- [ ] ~~Changing Rotation Degree.~~
