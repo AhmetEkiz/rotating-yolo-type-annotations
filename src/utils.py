@@ -1,6 +1,34 @@
 import cv2
 import numpy as np
 import os
+import random
+
+
+# create color for annotations
+class ColorPalette:
+    def __init__(self):
+
+        # red - blue- yellow - green -purple
+        self.colors = [(252, 79, 0),
+                       (6, 143, 255),
+                       (251, 216, 93),
+                       (39, 225, 193),
+                       (143, 67, 238)]
+
+    def get_random_color(self):
+        r = random.randint(0, 255)
+        g = random.randint(0, 255)
+        b = random.randint(0, 255)
+        color = (r, g, b)
+        self.colors.append(color)
+        return color
+
+    def get_color(self, index):
+        if index >= len(self.colors):
+            random.seed(index)  # Set seed for consistent color generation
+            while len(self.colors) <= index:
+                self.get_random_color()
+        return self.colors[index]
 
 
 def draw_seg_annotations(label_PATH, image, thickness=2):
@@ -16,7 +44,8 @@ def draw_seg_annotations(label_PATH, image, thickness=2):
     Returns:
         image: annotated image
     """
-    color = (255, 255, 0)  # Green color
+    # color = (255, 255, 0)  # Green color
+    color_palette = ColorPalette()
 
     img_height, img_width, _ = image.shape
 
@@ -29,6 +58,8 @@ def draw_seg_annotations(label_PATH, image, thickness=2):
 
         class_id = int(data[0])
         points = list(map(float, data[1:]))
+        # create unique color for each class
+        color = color_palette.get_color(class_id)
 
         # split x and y. Also scale for image width and height
         x = np.array(points[0::2])*img_width
@@ -56,7 +87,8 @@ Args:
 Returns:
     image: annotated image
     """
-    color = (255, 255, 0)  # Green color
+    # color = (255, 255, 0)  # Green color
+    color_palette = ColorPalette()
 
     img_height, img_width, _ = image.shape
 
@@ -70,6 +102,8 @@ Returns:
         class_id, x_center_norm, y_center_norm, width_norm, height_norm = map(
             float, data)
         class_id = int(class_id)
+        # create unique color for each class
+        color = color_palette.get_color(class_id)
 
     # Scale x, y, width and height for image
         x = x_center_norm*img_width
@@ -78,7 +112,8 @@ Returns:
         h = height_norm*img_height
 
         # draw bounding box
-        image = cv2.rectangle(image, (int(x-(w/2)), int(y-(h/2))), (int(x+(w/2)), int(y+(h/2))), color, thickness)
+        image = cv2.rectangle(image, (int(x-(w/2)), int(y-(h/2))),
+                              (int(x+(w/2)), int(y+(h/2))), color, thickness)
 
     return image
 
@@ -211,7 +246,8 @@ def rotate_bbox_annotations(label_PATH,
         for line in lines:
             data = line.strip().split()
 
-            class_id, x_center_norm, y_center_norm, width_norm, height_norm = map(float, data)
+            class_id, x_center_norm, y_center_norm, width_norm, height_norm = map(
+                float, data)
             class_id = int(class_id)
 
             # rotate center point
@@ -228,7 +264,8 @@ def rotate_bbox_annotations(label_PATH,
 
     # to test annotations is true uncomment these 4 lines
     # TODO: Draw bbox annotations
-    test_image = draw_bbox_annotations(rotated_annotation_file_PATH, rotated_image, thickness=2)
+    test_image = draw_bbox_annotations(
+        rotated_annotation_file_PATH, rotated_image, thickness=2)
     test_rotated_image_PATH = f"{ouput_folder_PATH}/test_images/{image_name}"
     os.makedirs(f"{ouput_folder_PATH}/test_images", exist_ok=True)
     cv2.imwrite(test_rotated_image_PATH, test_image)
