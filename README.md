@@ -36,7 +36,7 @@ python rotate_bbox_dataset.py
 # TODO
 
 - [x] Fix for object detection dataset rotation.
-- [ ] Give different colors for every class.
+- [x] Give different colors for every class.
 - [ ] Put text on annotation on drawing function.
 - [ ] Drawing Segmentation annotations from folder main code.
 - [ ] Drawing Bounding Box annotations from folder main code.
